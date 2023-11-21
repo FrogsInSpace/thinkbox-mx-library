@@ -9,7 +9,7 @@ import shutil
 
 VALID_MAX_CONFIGS: dict[tuple[str, str], set[str]] = {
     ('Visual Studio', '15'): { '2022' },
-    ('Visual Studio', '16'): { '2022', '2023' },
+    ('Visual Studio', '16'): { '2022', '2023', '2024' },
 }
 
 SETTINGS: dict[str, Any] = {
@@ -29,7 +29,7 @@ class MaxSDKConan(ConanFile):
     description: str = 'A Conan package containing the Autodesk 3ds Max SDK.'
     settings: dict[str, Any] = SETTINGS
     options: dict[str, Any] = {
-        'max_version': ['2022', '2023'],
+        'max_version': ['2022', '2023', '2024' ],
         'max_path': 'ANY'
     }
 

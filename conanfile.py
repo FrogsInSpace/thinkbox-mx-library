@@ -7,7 +7,7 @@ from conans import ConanFile, CMake
 
 VALID_MAX_CONFIGS: dict[tuple[str, str], set[str]] = {
     ('Visual Studio', '15'): { '2022' },
-    ('Visual Studio', '16'): { '2022', '2023' },
+    ('Visual Studio', '16'): { '2022', '2023', '2024' }
 }
 
 SETTINGS: dict[str, Any] = {
@@ -40,12 +40,12 @@ class ThinkboxMXLibraryConan(ConanFile):
     tool_requires: list[str] = TOOL_REQUIRES
     generators: str | list[str] = 'cmake_find_package'
     options: dict[str, Any] = {
-        'max_version': ['2022', '2023']
+        'max_version': ['2022', '2023', '2024']
     }
     
     def configure(self) -> None:
         if self.options.max_version == None:
-            self.options.max_version = '2023'
+            self.options.max_version = '2024'
         self.options['maxsdk'].max_version = self.options.max_version
 
     def validate(self) -> None:

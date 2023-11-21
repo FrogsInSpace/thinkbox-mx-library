@@ -186,7 +186,7 @@ inline void apply_modifiers_to_particles( const frantic::channels::channel_map& 
         if( !selectionAccessor.is_default() && theMesh.selLevel == MESH_VERTEX ) {
             if( theMesh.vDataSupport( VDATA_SELECT ) )
                 selectionAccessor.set( *it, theMesh.getVSelectionWeights()[i] );
-            else if( theMesh.vertSel[i] )
+            else if( theMesh.VertSel()[i] )
                 selectionAccessor.set( *it, 1.f );
             else
                 selectionAccessor.set( *it, 0.f );
