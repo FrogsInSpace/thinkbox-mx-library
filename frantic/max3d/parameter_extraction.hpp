@@ -28,7 +28,19 @@ namespace max3d {
  */
 inline bool get_parameter_name_and_id( IParamBlock* p, int parameterIndex, frantic::tstring& outName, int& outParamID,
                                        bool debugPrints = false ) {
-    outName = strings::to_lower( (const TCHAR*)p->SubAnimName( p->GetAnimNum( parameterIndex ) ) );
+    outName = strings::to_lower( 
+
+#if MAX_RELEASE_R24
+    #if MAX_RELEASE_R27
+        (const TCHAR*) (p->SubAnimName( p->GetAnimNum( parameterIndex ), false )).data()
+    #else
+        (const TCHAR*)p->SubAnimName( p->GetAnimNum( parameterIndex ), false )
+    #endif
+#else
+        (const TCHAR*)p->SubAnimName( p->GetAnimNum( parameterIndex ))
+#endif
+    
+    );
     outParamID = parameterIndex;
     if( debugPrints && outName.empty() ) {
         mprintf( _T("Got empty parameter name from IParamBlock\n") );
@@ -420,7 +432,16 @@ inline void collect_all_parameters_recursive( ReferenceTarget* refTarget,
             std::map<ReferenceTarget*, int>::iterator ref_it = processed.find( (ReferenceTarget*)childAnim );
             if( ref_it != processed.end() ) {
                 collect_all_parameters_recursive( (ReferenceTarget*)childAnim, params, t,
-                                                  prefix + ( (const TCHAR*)refTarget->SubAnimName( i ) ) + _T("."),
+                                                  prefix +
+#if MAX_RELEASE_R24
+#if MAX_RELEASE_R27
+                                                    (const TCHAR*)refTarget->SubAnimName( i, false ).data() + _T("."),
+#else
+                                                    (const TCHAR*)refTarget->SubAnimName( i, false ) + _T("."),
+#endif
+#else
+                                                    ( (const TCHAR*)refTarget->SubAnimName( i ) ) + _T("."),
+#endif                                                    
                                                   true );
             }
         }
