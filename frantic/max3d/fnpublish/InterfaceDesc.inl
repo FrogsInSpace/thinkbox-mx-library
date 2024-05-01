@@ -85,7 +85,7 @@ namespace detail{
 
 	template <class T, int Index>
 	struct get_parameter : public std::unary_function< FPParams*, typename Traits< typename RemoveConstRef<T>::type >::param_type >{
-		inline result_type operator()( FPParams* p ) const {
+          inline decltype( auto ) operator()( FPParams * p ) const {
 			return Traits< typename RemoveConstRef<T>::type >::get_parameter( p->params[Index] );
 		}
 	};

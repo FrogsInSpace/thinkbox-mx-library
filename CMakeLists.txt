@@ -79,7 +79,7 @@ frantic_default_source_groups( thinkboxmxlibrary HEADERDIR include SOURCEDIR src
 # Disable optimization for the RelWithDebInfo configuration on Windows.
 # This allows breakpoints to be hit reliably when debugging in Visual Studio.
 if( WIN32 )
-	target_compile_options( thinkboxmxlibrary PRIVATE "/std:c++14" PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
+	target_compile_options( thinkboxmxlibrary PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
 endif()
 
 # add_library( tp_70_sdk_wrapper STATIC "${CMAKE_CURRENT_SOURCE_DIR}/src/particles/tp_particle_istream70.cpp" )
