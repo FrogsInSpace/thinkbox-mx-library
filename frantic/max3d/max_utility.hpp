@@ -21,8 +21,12 @@ namespace max3d {
 
 inline void save_max_scene_copy( const frantic::tstring& filename ) {
     using namespace frantic;
-
+#if MAX_RELEASE_R27
+    frantic::tstring holdMaxDir = GetCOREInterface()->GetDir( APP_AUTOBACK_DIR ).data();
+#else
     frantic::tstring holdMaxDir = GetCOREInterface()->GetDir( APP_AUTOBACK_DIR );
+#endif
+    
     frantic::tstring holdFileName = holdMaxDir + _T("/maxhold.mx");
     frantic::tstring holdTempFileName = holdMaxDir = _T("/maxhold.tmp");
 

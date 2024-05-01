@@ -58,12 +58,12 @@ find_package( maxsdk REQUIRED )
 # find_package( thinking_particles_light_line_sdk REQUIRED )
 
 target_include_directories( thinkboxmxlibrary PUBLIC ${thinkboxlibrary_INCLUDE_DIRS} )
+target_include_directories( thinkboxmxlibrary PUBLIC ${maxsdk_INCLUDE_DIR} )
 target_include_directories( thinkboxmxlibrary PUBLIC ${Boost_INCLUDE_DIRS} )
 target_include_directories( thinkboxmxlibrary PUBLIC ${OpenEXR_INCLUDE_DIRS} )
 target_include_directories( thinkboxmxlibrary PUBLIC ${ZLIB_INCLUDE_DIRS} )
 target_include_directories( thinkboxmxlibrary PUBLIC ${TBB_INCLUDE_DIRS} )
 target_include_directories( thinkboxmxlibrary PUBLIC ${tinyxml2_INCLUDE_DIRS} )
-target_include_directories( thinkboxmxlibrary PUBLIC ${maxsdk_INCLUDE_DIR} )
 
 target_link_libraries( thinkboxmxlibrary INTERFACE thinkboxlibrary::thinkboxlibrary )
 target_link_libraries( thinkboxmxlibrary INTERFACE Boost::Boost )
@@ -79,7 +79,7 @@ frantic_default_source_groups( thinkboxmxlibrary HEADERDIR include SOURCEDIR src
 # Disable optimization for the RelWithDebInfo configuration on Windows.
 # This allows breakpoints to be hit reliably when debugging in Visual Studio.
 if( WIN32 )
-	target_compile_options( thinkboxmxlibrary PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
+	target_compile_options( thinkboxmxlibrary PRIVATE "/std:c++14" PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
 endif()
 
 # add_library( tp_70_sdk_wrapper STATIC "${CMAKE_CURRENT_SOURCE_DIR}/src/particles/tp_particle_istream70.cpp" )
