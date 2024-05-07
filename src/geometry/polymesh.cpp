@@ -556,8 +556,11 @@ frantic::geometry::polymesh3_ptr polymesh_copy( Mesh& trimesh, const frantic::gr
             pVelocityPolymesh = &polymesh;
         } else {
             tempPolymesh = polymesh;
-            //tempPolymesh.MAlloc( 0, FALSE );
-            tempPolymesh.SetMapNum(0);
+#if MAX_RELEASE < 26000
+            tempPolymesh.MAlloc( 0, FALSE );
+#else
+            tempPolymesh.SetMapNum( 0 );
+#endif
             velocityMapChannel = 0;
             pVelocityPolymesh = &tempPolymesh;
         }
