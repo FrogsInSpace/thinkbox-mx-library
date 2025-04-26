@@ -8,9 +8,9 @@ import pathlib
 import shutil
 
 VALID_MAX_CONFIGS: dict[tuple[str, str], set[str]] = {
-    ('Visual Studio', '15'): { '2017', '2018', '2019', '2020', '2021', '2022' },
-    ('Visual Studio', '16'): { '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024' },
-    ('Visual Studio', '17'): { '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026' }
+    ('Visual Studio', '15'): { '2016', '2017', '2018', '2019', '2020', '2021', '2022' },
+    ('Visual Studio', '16'): { '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024' },
+    ('Visual Studio', '17'): { '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027' }
 }
 
 SETTINGS: dict[str, Any] = {
@@ -23,8 +23,10 @@ SETTINGS: dict[str, Any] = {
 }
                     
 # DEFAULT_MAX_PATH: str = 'C:/Program Files/Autodesk/3ds Max {} SDK/maxsdk'
-# DEFAULT_MAX_PATH: str = os.getenv('ADSK_3DSMAX_SDK_{}', 'C:/Program Files/Autodesk/3ds Max {} SDK/maxsdk')
-DEFAULT_MAX_PATH: str = 'F:/_SDKs/3dsMax/3dsMax{}_SDK/maxsdk'
+# DEFAULT_MAX_PATH: str = os.getenv('ADSK_3DSMAX_SDK_{}', 'F:/_SDKs/3dsMax/3dsMax{}_SDK/maxsdk')
+DEFAULT_MAX_FALLBACK: str = 'F:/_SDKs/3dsMax/3dsMax{}_SDK/maxsdk'
+DEFAULT_MAX_PATH_ENV: str = 'ADSK_3DSMAX_SDK_{}'
+
 
 class MaxSDKConan(ConanFile):
     name: str = 'maxsdk'
@@ -32,7 +34,7 @@ class MaxSDKConan(ConanFile):
     description: str = 'A Conan package containing the Autodesk 3ds Max SDK.'
     settings: dict[str, Any] = SETTINGS
     options: dict[str, Any] = {
-        'max_version': ['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+        'max_version': ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027'],
         'max_path': 'ANY'
     }
 
@@ -41,7 +43,7 @@ class MaxSDKConan(ConanFile):
             self.options.max_version = '2024'
 
         if self.options.max_path == None:
-            self.options.max_path = DEFAULT_MAX_PATH.format(self.options.max_version)
+            self.options.max_path = os.getenv(DEFAULT_MAX_PATH_ENV.format(self.options.max_version), DEFAULT_MAX_FALLBACK.format(self.options.max_version))
 
     def validate(self) -> None:
         compiler = str(self.settings.compiler)
